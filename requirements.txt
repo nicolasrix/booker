@@ -1,6 +1,6 @@
 # PDF Processing
 PyMuPDF==1.23.14
-Pillow==10.1.0
+Pillow==9.5.0
 
 # OCR
 easyocr==1.7.0
