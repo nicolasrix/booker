@@ -38,7 +38,7 @@ chunk_log.addHandler(chunk_handler)
 chunk_log.propagate = False  # Don't send to parent logger
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "phi3:14b"
+MODEL = "phi3:3.8b"
 
 
 def check_ollama_connection():
@@ -193,7 +193,7 @@ def clean_text_with_ollama(ocr_text):
                     Output: "In 2021, the company"
                     
                     IMPORTANT: Keep all years (2020, 2021, 2022, etc.) and numbers exactly as they are.
-                    
+                    IMPORTANT: Keep ALL line breaks and paragraph breaks as in the input. Do not merge lines or paragraphs. Only correct OCR errors.
                     Now fix this text (output ONLY the corrected text):
                     
                     {chunk}"""

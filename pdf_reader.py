@@ -54,6 +54,19 @@ def load_ocr_cache(pdf_path):
     return None
 
 
+def fix_artificial_linebreaks(text):
+    lines = text.split('\n')
+    new_lines = []
+    for i, line in enumerate(lines):
+        # If not the last line, and no punctuation at the end, and next line is lowercase, merge
+        if i < len(lines) - 1 and not line.rstrip().endswith(('.', '!', '?')) and lines[i+1] and lines[i+1][0].islower():
+            new_lines.append(line.rstrip() + ' ' + lines[i+1].lstrip())
+            lines[i+1] = ''
+        else:
+            new_lines.append(line)
+    return '\n'.join([line for line in new_lines if line])
+
+
 def pdf_to_text(pdf_path, output_dir="output", use_cache=True):
     console = Console()
     os.makedirs(output_dir, exist_ok=True)
@@ -87,6 +100,9 @@ def pdf_to_text(pdf_path, output_dir="output", use_cache=True):
             # Update progress immediately
             progress.advance(task)
             progress.refresh()
+
+    # Optional: fix artificial linebreaks
+    all_text = fix_artificial_linebreaks(all_text)
 
     # Save to cache
     if use_cache:
